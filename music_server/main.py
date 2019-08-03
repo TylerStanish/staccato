@@ -1,5 +1,7 @@
 from flask import Flask
 
+from .config import ProductionConfig
+
 
 def create_app(env: str):
     app = Flask(__name__)

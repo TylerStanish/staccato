@@ -1,0 +1,2 @@
+class ProductionConfig(Config):
+    pass

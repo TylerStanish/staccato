@@ -1,49 +1,22 @@
 from flask import Flask
 
 from .config import ProductionConfig
+from music_server.db import get_database
 
 
-def create_app(env: str):
+def create_app():
     app = Flask(__name__)
     
-    if config == 'development':
-        pool = psycopg2.ThreadedConnectionPool(
-            minconn=1,
-            maxconn=8,
-            dbname=DevelopmentConfig.DB.DBNAME,
-            user=DevelopmentConfig.DB.USER,
-            host=DevelopmentConfig.DB.HOST,
-            password=DevelopmentConfig.DB.PASSWORD,
-        )
-
-    elif config == 'testing':
-        pool = psycopg2.ThreadedConnectionPool(
-            minconn=1,
-            maxconn=8,
-            dbname=TestingConfig.DB.DBNAME,
-            user=TestingConfig.DB.USER,
-            host=TestingConfig.DB.HOST,
-            password=TestingConfig.DB.PASSWORD,
-        )
-
-    elif config == 'production':
-        pool = psycopg2.ThreadedConnectionPool(
-            minconn=1,
-            maxconn=8,
-            dbname=ProductionConfig.DB.DBNAME,
-            user=ProductionConfig.DB.USER,
-            host=ProductionConfig.DB.HOST,
-            password=ProductionConfig.DB.PASSWORD,
-        )
-
+    db = get_database()
 
     @app.before_request
     def before_request():
-        g.db = pool.getconn()
+        db.connect()
     
     @app.after_request
-    def after_request():
-        pool.putconn(g.db)
+    def after_request(res):
+        db.close()
+        return res
 
 
     return app

@@ -12,6 +12,8 @@ def create_app():
     @app.before_request
     def before_request():
         db.connect()
+        # TODO authenticate all requests here
+        # TODO don't forget to cache, and don't forget to invalidate cache upon token destruction
     
     @app.after_request
     def after_request(res):

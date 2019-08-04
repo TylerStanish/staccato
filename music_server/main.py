@@ -1,7 +1,7 @@
 from flask import Flask
 
-from .config import ProductionConfig
-from music_server.db import get_database
+from config import ProductionConfig
+from db import get_database
 
 
 def create_app():
@@ -20,6 +20,9 @@ def create_app():
         db.close()
         return res
 
+    @app.route('/')
+    def sanity():
+        return 'hi'
 
     return app
 

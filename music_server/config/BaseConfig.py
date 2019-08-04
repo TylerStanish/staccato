@@ -4,5 +4,4 @@ class Config:
         PASSWORD = ''
         DBNAME = ''
         HOST = ''
-
         VENDOR = 'postgres'

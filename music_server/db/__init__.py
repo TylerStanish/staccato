@@ -4,6 +4,7 @@ from utils import get_config
 
 
 _database = None
+_base_model = None
 
 def get_database():
     global _database
@@ -26,3 +27,14 @@ def get_database():
         )
     
     return _database
+
+
+def get_base_model():
+    global _base_model
+    if not _base_model:
+        class BaseModel(peewee.Model):
+            class Meta:
+                database = get_database()
+        _base_model = BaseModel
+    return _base_model
+

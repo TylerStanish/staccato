@@ -13,7 +13,7 @@ def create_app():
     def before_request():
         db.connect()
         # TODO authenticate all requests here
-        # TODO don't forget to cache, and don't forget to invalidate cache upon token destruction
+        # TODO don't forget to cache, and don't forget to invalidate cache upon token destruction/modification
     
     @app.after_request
     def after_request(res):

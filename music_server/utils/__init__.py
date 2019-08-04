@@ -1,5 +1,7 @@
 import os
 
+from .exceptions import BadRequestException
+
 
 def get_config():
     from config import Config, DevConfig, ProductionConfig, TestingConfig
@@ -22,5 +24,5 @@ def read_from_file(filename: str, default: str='') -> str:
 def get_token_from_authorization_header(auth_header: str) -> str:
     split_res = auth_header.split(' ')
     if len(split_res) != 2:
-        raise Exception('Invalid Authorization header')
+        raise BadRequestException('Invalid Authorization header')
     return split_res[1]

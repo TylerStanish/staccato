@@ -1,3 +1,4 @@
+import peewee
 from peewee import PostgresqlDatabase, SqliteDatabase
 
 from utils import get_config

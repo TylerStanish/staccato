@@ -1,9 +1,9 @@
 from http import HTTPStatus
+import os
 
 from flask import Flask, request, jsonify
 
 from auth.models import Token
-from config import ProductionConfig
 from db import get_database
 from utils import get_token_from_authorization_header
 from utils.exceptions import BadRequestException
@@ -11,6 +11,7 @@ from utils.exceptions import BadRequestException
 
 def create_app():
     app = Flask(__name__)
+    # app.config.from_object('config.' + os.environ['FLASK_ENV'].title() + 'Config')
     
     db = get_database()
 
@@ -41,7 +42,7 @@ def create_app():
     @app.errorhandler(Exception)
     def catchall_exceptions(e: Exception):
         return jsonify({
-            'error': str(e)
+            'error': 'Internal server error'
         }), HTTPStatus.INTERNAL_SERVER_ERROR
 
     return app

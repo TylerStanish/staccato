@@ -4,10 +4,10 @@ from .exceptions import BadRequestException
 
 
 def get_config():
-    from config import Config, DevConfig, ProductionConfig, TestingConfig
+    from config import Config, DevelopmentConfig, ProductionConfig, TestingConfig
     env = os.environ['FLASK_ENV']
     if env == 'development':
-        return DevConfig
+        return DevelopmentConfig
     elif env == 'production':
         return ProductionConfig
     elif env == 'testing':

@@ -22,6 +22,8 @@ def read_from_file(filename: str, default: str='') -> str:
 
 
 def get_token_from_authorization_header(auth_header: str) -> str:
+    if auth_header is None:
+        return ''
     split_res = auth_header.split(' ')
     if len(split_res) != 2:
         raise BadRequestException('Invalid Authorization header')

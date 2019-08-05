@@ -1,7 +1,7 @@
 import importlib
 import sys
 
-from config import TestingConfig, ProductionConfig, DevConfig
+from config import TestingConfig, ProductionConfig, DevelopmentConfig
 
 from playhouse.migrate import PostgresqlDatabase
 
@@ -22,10 +22,10 @@ def main(mode, up_down, version):
         )
     elif mode == 'development':
         database = PostgresqlDatabase(
-            DevConfig.DB.DBNAME,
-            user=DevConfig.DB.USER,
-            host=DevConfig.DB.HOST,
-            password=DevConfig.DB.PASSWORD
+            DevelopmentConfig.DB.DBNAME,
+            user=DevelopmentConfig.DB.USER,
+            host=DevelopmentConfig.DB.HOST,
+            password=DevelopmentConfig.DB.PASSWORD
         )
     elif mode == 'production':
         print('WARNING: You do not have any production migration set up!')

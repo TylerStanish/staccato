@@ -1,5 +1,6 @@
 from http import HTTPStatus
 import os
+import traceback
 
 from flask import Flask, request, jsonify
 
@@ -11,13 +12,15 @@ from utils.exceptions import BadRequestException
 
 def create_app():
     app = Flask(__name__)
-    # app.config.from_object('config.' + os.environ['FLASK_ENV'].title() + 'Config')
+
+    modulename = os.environ['FLASK_ENV'].title() + 'Config'
+    app.config.from_object(f'config.{modulename}.{modulename}')
     
     db = get_database()
 
     @app.before_request
     def before_request():
-        db.connect()
+        db.connect(reuse_if_open=True)
         # TODO authenticate all requests here
         # TODO don't forget to cache, and don't forget to invalidate cache upon token destruction/modification
         query = Token.select().where(Token.token == get_token_from_authorization_header(request.headers.get('Authorization')))
@@ -41,6 +44,7 @@ def create_app():
 
     @app.errorhandler(Exception)
     def catchall_exceptions(e: Exception):
+        traceback.print_exc()
         return jsonify({
             'error': 'Internal server error'
         }), HTTPStatus.INTERNAL_SERVER_ERROR

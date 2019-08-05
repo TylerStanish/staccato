@@ -1,27 +1,28 @@
 from http import HTTPStatus
 import os
+os.environ['FLASK_ENV'] = 'testing'
 import unittest
 from unittest.mock import patch
 from uuid import UUID
 
 from db import get_database
-import generate_token
 from db.migrations.migrate import main as migrate
+import generate_token
+from main import create_app
 
 
 class TestAuth(unittest.TestCase):
     def setUp(self):
-        os.environ['FLASK_ENV'] = 'testing'
         self.app = create_app()
         self.client = self.app.test_client()
 
         self.db = get_database()
         for i in range(1, 2):
-            migrate('testing', 'up', f'migrations.v{i}')
+            migrate('testing', 'up', f'db.migrations.v{i}')
 
     def tearDown(self):
         for i in reversed(range(1, 2)):
-            migrate('testing', 'down', f'migrations.v{i}')
+            migrate('testing', 'down', f'db.migrations.v{i}')
     
     def test_authentication_fails_and_not_throws_with_missing_header(self):
         res = self.client.get('/')

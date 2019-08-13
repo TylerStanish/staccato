@@ -1,3 +1,4 @@
+from base64 import b64encode
 import logging
 import os
 import uuid
@@ -11,9 +12,9 @@ def generate_token():
     if not env:
         print("FLASK_ENV not set. I don't know which database you want to create a token for")
         return
-    tok_str = str(uuid.uuid4())
+    tok_str = b64encode(os.urandom(64)).decode()
     Token.create(token=tok_str)
-    print(f'The token is {tok_str}')
+    print(tok_str)
 
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 from base64 import b64encode
 import logging
 import os
-import uuid
+import secrets
 
 from auth.models import Token
 from db import get_database
@@ -12,7 +12,7 @@ def generate_token():
     if not env:
         print("FLASK_ENV not set. I don't know which database you want to create a token for")
         return
-    tok_str = b64encode(os.urandom(64)).decode()
+    tok_str = secrets.token_urlsafe(64)
     Token.create(token=tok_str)
     print(tok_str)
 

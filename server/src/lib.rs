@@ -2,7 +2,6 @@
 
 #[macro_use] extern crate rocket;
 use rocket::http::RawStr;
-use rocket::local::Client;
 
 
 #[post("/auth?<code>&<state>")]
